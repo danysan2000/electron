@@ -129,7 +129,7 @@ app.on('ready', () => {
     console.log('Debugger detached due to : ', reason)
   })
 
-  mainWindow.webContents.debugger.on('message', function (event, method, params) {
+  mainWindow.webContents.debugger.on('message', function (event, method, params: any) {
     if (method === 'Network.requestWillBeSent') {
       if (params.request.url === 'https://www.github.com') {
         mainWindow.webContents.debugger.detach()
@@ -918,10 +918,17 @@ app.on('ready', () => {
     { label: 'Item3', type: 'radio', checked: true },
     { label: 'Item4', type: 'radio' }
   ])
+
+  appIcon.setTitle('title')
   appIcon.setToolTip('This is my application.')
-  appIcon.setContextMenu(contextMenu)
+
   appIcon.setImage('/path/to/new/icon')
+  appIcon.setPressedImage('/path/to/new/icon')
+
   appIcon.popUpContextMenu(contextMenu, { x: 100, y: 100 })
+  appIcon.setContextMenu(contextMenu)
+
+  appIcon.setIgnoreDoubleClickEvents(true)
 
   appIcon.on('click', (event, bounds) => {
     console.log('click', event, bounds)
@@ -933,7 +940,12 @@ app.on('ready', () => {
 
   appIcon.displayBalloon({
     title: 'Hello World!',
-    content: 'This the the balloon content.'
+    content: 'This the the balloon content.',
+    iconType: 'error',
+    icon: 'path/to/icon',
+    respectQuietTime: true,
+    largeIcon: true,
+    noSound: true
   })
 })
 
